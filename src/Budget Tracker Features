@@ -1,0 +1,24 @@
+Data Visualization
+- can track progress
+
+Simple Personal Monthly Budget
+Types of Budgeting:
+1. Traditional
+    - List all of your expected monthly expenses and subtract your expenses
+to either your expected monthly income or balance.
+
+2. 50/30/20
+    - 50% needs, 30% wants, 20% savings/paying off debt
+
+General Features
+Account
+[1] Sign in (log-in, create)
+[2] Deposit money
+[3] Check balance
+[4] Withdraw money
+
+Budget
+[1] Store monthly expenses (add, remove, clear)
+[2] Save money
+[3] Display total expenses (wants, needs)
+[4] Display monthly budget (using balance, using income)
