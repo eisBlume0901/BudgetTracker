@@ -382,9 +382,9 @@ public class UI implements UserInputFunctionalities
 
     public void displayMonthlyBudgetData()
     {
+        setIncome();
         budgetManager.displayMonthlyBudgetData();
     }
-
 
     public void saveMoney()
     {
@@ -392,5 +392,11 @@ public class UI implements UserInputFunctionalities
         budgetManager.save(validDoubleInput());
         account.checkSavings();
         accountManager.storeToFile();
+    }
+
+    public void setIncome()
+    {
+        out.println("Expected Monthly Income: ");
+        budgetManager.setIncome(validDoubleInput());
     }
 }

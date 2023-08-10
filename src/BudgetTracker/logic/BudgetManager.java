@@ -141,10 +141,6 @@ public class BudgetManager implements FileProcessor
     {
         Map<String, String> expenseMap = storeDataToMap();
 
-        expenseMap.put("Total Expenses :", String.valueOf(totalExpense()));
-        expenseMap.put("Total Savings  :", String.valueOf(account.getSavings()));
-        expenseMap.put("Monthly Income :", String.valueOf(getIncome()));
-
         int[] maximumLength = new int[2];
         for (Map.Entry<String, String> entry : expenseMap.entrySet())
         {
@@ -152,15 +148,25 @@ public class BudgetManager implements FileProcessor
             maximumLength[1] = Math.max(maximumLength[1], entry.getKey().length());
         }
 
-        String format = "%-" + (maximumLength[0] + 5) + "s%-20s%n";
+        String format = "%-" + (maximumLength[0] + 20) + "s%-20s%n";
 
         String[] parts = file.toString().split(" ");
         System.out.println(parts[0].toUpperCase() + " " + parts[2] + " " + parts[1]);
         System.out.println("".repeat(maximumLength[0] + 25));
 
+        System.out.printf(format, "Spending Category", "Cost");
         for (Map.Entry<String, String> entry : expenseMap.entrySet())
             System.out.printf(format, entry.getKey(), entry.getValue());
+        System.out.println("---------------------------------------------");
+        System.out.printf(format, "Total Expenses :", String.valueOf(totalExpense()));
+
+        Double totalSavingsByAccountBalance = account.getBalance() - totalExpense();
+        System.out.println("Total Savings");
+        System.out.printf(format, "by account balance :", String.valueOf(totalSavingsByAccountBalance));
+        Double totalSavingsByMonthlyIncome = getIncome() - totalExpense();
+        System.out.printf(format, "by monthly income :", String.valueOf(totalSavingsByMonthlyIncome));
     }
+
 
     public void save(Double amount)
     {
