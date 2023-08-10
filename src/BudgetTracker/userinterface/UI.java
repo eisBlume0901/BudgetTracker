@@ -122,6 +122,7 @@ public class UI implements UserInputFunctionalities
 
             accountManager.add(account);
             accountManager.storeToFile();
+            budgetManager = new BudgetManager(account);
         }
     }
 
@@ -165,6 +166,9 @@ public class UI implements UserInputFunctionalities
         {
             out.println("Please create an account first!");
         }
+
+        budgetManager = new BudgetManager(account);
+        budgetManager.storeExpensesToList();
     }
     public void depositMoney()
     {
@@ -201,7 +205,6 @@ public class UI implements UserInputFunctionalities
         }
         else
         {
-            budgetManager = new BudgetManager(account);
             while (true)
             {
                 out.println("""
@@ -256,6 +259,7 @@ public class UI implements UserInputFunctionalities
             else if (userChoice == 3) clearAllExpenses();
             else if (userChoice == 4)
             {
+                budgetManager.storeToFile();
                 out.println("Exiting...");
                 break;
             }
@@ -373,13 +377,11 @@ public class UI implements UserInputFunctionalities
 
     public void displayTotalExpenses()
     {
-        budgetManager.storeExpensesToList();
         budgetManager.checkTotalExpense();
     }
 
     public void displayMonthlyBudgetData()
     {
-        budgetManager.storeExpensesToList();
         budgetManager.displayMonthlyBudgetData();
     }
 

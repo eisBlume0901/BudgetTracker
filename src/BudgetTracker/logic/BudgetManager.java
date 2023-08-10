@@ -19,26 +19,11 @@ public class BudgetManager implements FileProcessor
         this.account = account;
         this.spendingCategoryList = new LinkedList<>();
         this.localDateTime = LocalDateTime.now();
+        this.file = new File(account.getLastName()
+                + " " + this.localDateTime.getYear() + " " + this.localDateTime.getMonth());
         this.income = 0.0;
     }
 
-    public void createBudgetFile()
-    {
-        try
-        {
-            if (this.file == null || !this.file.exists())
-            {
-                this.file = new File(account.getLastName()
-                        + " " + this.localDateTime.getYear() + " " + this.localDateTime.getMonth());
-                createNewFile(file.getName());
-            }
-            else throw new FileAlreadyExistsException("File already exists!");
-        }
-        catch (FileAlreadyExistsException faee)
-        {
-            faee.printStackTrace();
-        }
-    }
     public void spend(SpendingCategory spendingCategory)
     {
         spendingCategoryList.add(spendingCategory);
@@ -123,7 +108,7 @@ public class BudgetManager implements FileProcessor
     {
         try
         {
-            Files.lines(Paths.get(file.getAbsolutePath()))
+            Files.lines(Paths.get(this.file.getAbsolutePath()))
                     .map(data -> data.split(","))
                     .filter(parts -> parts.length > 2)
                     .map(parts -> new SpendingCategory(parts[0], Double.parseDouble(parts[1]), parts[2]))
@@ -139,14 +124,11 @@ public class BudgetManager implements FileProcessor
         Map<String, String> expenseMap = new HashMap<>();
         try
         {
-            expenseMap.put("Spending Category", "Cost");
             Files.lines(Paths.get(file.getAbsolutePath()))
                     .map(data -> data.split(","))
                     .filter(parts -> parts.length > 2)
-                    .map(parts -> expenseMap.put(parts[0], parts[1]));
-            expenseMap.put("Total Expenses :", String.valueOf(totalExpense()));
-            expenseMap.put("Total Savings  :", String.valueOf(account.getSavings()));
-            expenseMap.put("Monthly Income :", String.valueOf(getIncome()));
+                    .forEach(parts -> expenseMap.put(parts[0], parts[1]));
+
         }
         catch (IOException ioe)
         {
@@ -158,6 +140,10 @@ public class BudgetManager implements FileProcessor
     public void displayMonthlyBudgetData()
     {
         Map<String, String> expenseMap = storeDataToMap();
+
+        expenseMap.put("Total Expenses :", String.valueOf(totalExpense()));
+        expenseMap.put("Total Savings  :", String.valueOf(account.getSavings()));
+        expenseMap.put("Monthly Income :", String.valueOf(getIncome()));
 
         int[] maximumLength = new int[2];
         for (Map.Entry<String, String> entry : expenseMap.entrySet())
