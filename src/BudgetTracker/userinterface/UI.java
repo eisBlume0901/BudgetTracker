@@ -2,6 +2,8 @@ package BudgetTracker.userinterface;
 
 import BudgetTracker.domain.*;
 import BudgetTracker.logic.*;
+
+import java.nio.file.NoSuchFileException;
 import java.util.*;
 import static java.lang.System.*;
 
@@ -18,7 +20,6 @@ public class UI implements UserInputFunctionalities
         this.scanner = new Scanner(in);
         this.accountManager = new AccountManager();
         accountManager.storeAccountsToList();
-
     }
 
     public void start()
@@ -164,36 +165,68 @@ public class UI implements UserInputFunctionalities
 
         if (account == null)
         {
-            out.println("Please create an account first!");
+            out.println("Account not found in the database");
         }
+        else
+        {
+            budgetManager = new BudgetManager(account);
 
-        budgetManager = new BudgetManager(account);
-        budgetManager.storeExpensesToList();
+            if (budgetManager.fileExists()) budgetManager.storeExpensesToList();
+        }
     }
     public void depositMoney()
     {
-        out.println("Amount to deposit: ");
-        double depositMoney = validDoubleInput();
-        account.deposit(depositMoney);
-        account.checkBalance();
+        if (account == null)
+        {
+            out.println("Please create or login to your account first");
+        }
+        else
+        {
+            out.println("Amount to deposit: ");
+            double depositMoney = validDoubleInput();
+            account.deposit(depositMoney);
+            account.checkBalance();
+        }
+
     }
 
     public void withdrawMoney()
     {
-        out.println("Amount to withdraw: ");
-        double withdrawMoney = validDoubleInput();
-        account.withdraw(withdrawMoney);
-        account.checkBalance();
+        if (account == null)
+        {
+            out.println("Please create or login to your account first");
+        }
+        else
+        {
+            out.println("Amount to withdraw: ");
+            double withdrawMoney = validDoubleInput();
+            account.withdraw(withdrawMoney);
+            account.checkBalance();
+        }
     }
 
     public void checkBalance()
     {
-        account.checkBalance();
+        if (account == null)
+        {
+            out.println("Please create or login to your account first");
+        }
+        else
+        {
+            account.checkBalance();
+        }
     }
 
     public void checkSavings()
     {
-        account.checkSavings();
+        if (account == null)
+        {
+            out.println("Please create or login to your account first");
+        }
+        else
+        {
+            account.checkSavings();
+        }
     }
 
     // Budget
@@ -217,18 +250,9 @@ public class UI implements UserInputFunctionalities
                     """);
 
                 int userChoice = validIntegerChoice(1, 5);
-                if (userChoice == 1)
-                {
-                    createAListOfExpenses();
-                }
-                else if (userChoice == 2)
-                {
-                    displayTotalExpenses();
-                }
-                else if (userChoice == 3)
-                {
-                    displayMonthlyBudgetData();
-                }
+                if (userChoice == 1) createAListOfExpenses();
+                else if (userChoice == 2) displayTotalExpenses();
+                else if (userChoice == 3) displayMonthlyBudgetData();
                 else if (userChoice == 4) saveMoney();
                 else if (userChoice == 5)
                 {
@@ -377,13 +401,32 @@ public class UI implements UserInputFunctionalities
 
     public void displayTotalExpenses()
     {
-        budgetManager.checkTotalExpense();
+        try
+        {
+            if (budgetManager.fileExists()) budgetManager.checkTotalExpense();
+            else throw new Exception();
+        }
+        catch (Exception e)
+        {
+            err.println("Please create an expense list first");
+        }
     }
 
     public void displayMonthlyBudgetData()
     {
-        setIncome();
-        budgetManager.displayMonthlyBudgetData();
+        try
+        {
+            if (budgetManager.fileExists())
+            {
+                setIncome();
+                budgetManager.displayMonthlyBudgetData();
+            }
+            else throw new Exception();
+        }
+        catch (Exception e)
+        {
+            err.println("Please create an expense list first");
+        }
     }
 
     public void saveMoney()

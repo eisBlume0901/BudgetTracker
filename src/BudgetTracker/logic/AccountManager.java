@@ -1,12 +1,8 @@
 package BudgetTracker.logic;
 
 import BudgetTracker.domain.Account;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.*;
+import java.nio.file.*;
 import java.util.*;
 public class AccountManager
 {
@@ -76,6 +72,14 @@ public class AccountManager
                             new Account(parts[0], parts[1], parts[2],
                                     Double.parseDouble(parts[3]), Double.parseDouble(parts[4])))
                     .forEach(this::add);
+        }
+        catch (NoSuchFileException nsfe)
+        {
+            System.err.println("There is no such file to store the accounts to a list");
+        }
+        catch (FileNotFoundException fnfe)
+        {
+            System.err.println("File not found. Please create a new file and update the AccountManager Class");
         }
         catch (IOException ioe)
         {

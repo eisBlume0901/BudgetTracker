@@ -50,12 +50,12 @@ public class Account extends Person
     {
         try
         {
-            if (amount > 0) this.balance += amount;
+            if (amount <= 100_000 - this.balance) this.balance += amount;
             else throw new IllegalArgumentException();
         }
         catch (IllegalArgumentException iae)
         {
-            out.println("Deposit should not be 0");
+            out.println("Deposit should not be greater than 100_000");
         }
     }
 

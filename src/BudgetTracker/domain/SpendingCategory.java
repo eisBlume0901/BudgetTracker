@@ -23,7 +23,7 @@ public class SpendingCategory
         }
         catch (IllegalArgumentException iae)
         {
-            System.out.println("Spending Category should contain alphabets only!");
+            System.err.println("Note: Spending Category should only contain alphabets only");
         }
         this.cost = cost;
         this.spendingType = spendingType;

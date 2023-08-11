@@ -83,24 +83,33 @@ public class BudgetManager implements FileProcessor
         }
         catch (IOException ioe)
         {
-            ioe.printStackTrace();
+            ioe.getStackTrace(); // ioe.printStackTrace() if you want to see the errors and exceptions thrown
         }
         return total;
     }
 
     public Double totalExpense()
     {
-        double wantsTotal = sumOfExpenses(SpendingCategory.SpendingType.WANTS);
-        double needsTotal = sumOfExpenses(SpendingCategory.SpendingType.NEEDS);
-        double total = wantsTotal + needsTotal;
+        double total = 0;
+        try
+        {
+            total = Files.lines(Paths.get(file.getAbsolutePath()))
+                    .map(data -> data.split(","))
+                    .filter(parts -> parts.length > 2)
+                    .mapToDouble(parts -> Double.parseDouble(parts[1]))
+                    .sum();
+        }
+        catch (IOException ioe)
+        {
+            ioe.getStackTrace(); // ioe.printStackTrace() if you want to see the errors and exceptions thrown
+        }
         return total;
     }
 
     public void checkTotalExpense()
     {
         double total = totalExpense();
-        if (total == 0) System.out.println("File is empty. Please create an spending category list and add expenses");
-        else System.out.println(account.getLastName() + "'s total expense as of "
+        if (total != 0) System.out.println(account.getLastName() + "'s total expense as of "
                 + localDateTime.getMonth() + " " + localDateTime.getYear() + " is " + total);
     }
 
@@ -116,7 +125,7 @@ public class BudgetManager implements FileProcessor
         }
         catch (IOException ioe)
         {
-            ioe.printStackTrace();
+            ioe.getStackTrace(); // ioe.printStackTrace() if you want to see the errors and exceptions thrown
         }
     }
     public Map<String, String> storeDataToMap()
@@ -128,11 +137,10 @@ public class BudgetManager implements FileProcessor
                     .map(data -> data.split(","))
                     .filter(parts -> parts.length > 2)
                     .forEach(parts -> expenseMap.put(parts[0], parts[1]));
-
         }
         catch (IOException ioe)
         {
-            ioe.printStackTrace();
+            ioe.getStackTrace(); // ioe.printStackTrace() if you want to see the errors and exceptions thrown
         }
 
         return expenseMap;
@@ -158,13 +166,15 @@ public class BudgetManager implements FileProcessor
         for (Map.Entry<String, String> entry : expenseMap.entrySet())
             System.out.printf(format, entry.getKey(), entry.getValue());
         System.out.println("---------------------------------------------");
-        System.out.printf(format, "Total Expenses :", String.valueOf(totalExpense()));
+        System.out.println("Total Expenses");
+        System.out.printf(format, "by wants", String.valueOf(sumOfExpenses(SpendingCategory.SpendingType.WANTS)));
+        System.out.printf(format, "by needs", String.valueOf(sumOfExpenses(SpendingCategory.SpendingType.NEEDS)));
 
         Double totalSavingsByAccountBalance = account.getBalance() - totalExpense();
         System.out.println("Total Savings");
-        System.out.printf(format, "by account balance :", String.valueOf(totalSavingsByAccountBalance));
+        System.out.printf(format, "by account balance", String.valueOf(totalSavingsByAccountBalance));
         Double totalSavingsByMonthlyIncome = getIncome() - totalExpense();
-        System.out.printf(format, "by monthly income :", String.valueOf(totalSavingsByMonthlyIncome));
+        System.out.printf(format, "by monthly income", String.valueOf(totalSavingsByMonthlyIncome));
     }
 
 
@@ -181,5 +191,15 @@ public class BudgetManager implements FileProcessor
     public void setIncome(Double income)
     {
         this.income = income;
+    }
+
+    public boolean fileExists()
+    {
+        return file.exists();
+    }
+
+    public File getFile()
+    {
+        return file;
     }
 }
