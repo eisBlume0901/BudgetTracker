@@ -1,13 +1,13 @@
 # Simple-Budget-Tracker
 
-[Account](#moneywithwings-features-available-for-account-section)
+[Account](#money_with_wings-features-available-for-account-section)
 [Budget](#ledger-features-available-for-budget-section)
 
-This is my second Java project that allows user to create an account and plan for their budget.
-The account section allows user to create or login to their account using their first name and last name.
-After signing an account, the user is allowed to create his or her budget plan. I created this project to
-apply what I have learned from University of Helsinki's MOOC.fi Java II Programming. This project gave me
-deeper understanding of object-oriented principles in Java and the use of packages and imports (such as PrintWriter
+This is my second Java project that allows users to create an account and plan for their budget.
+The account section will enable users to create or log in to their accounts using their first name and last name.
+After signing an account, the user is allowed to create his or her budget plan. I started this project to
+apply what I have learned from the University of Helsinki's MOOC.fi Java II Programming. This project gave me
+a more profound understanding of object-oriented principles in Java and the use of packages and imports (such as PrintWriter
 and File API).
 
 ## Getting Started
@@ -37,33 +37,33 @@ To launch the program, follow these simple steps
    ```
 
 ## Functionality
-Once the program is executed, users can either create or login an account which allows them to
-explore the functionalities available for account and budget section. 
+Once the program is executed, users can either create or log in to an account which allows them to
+explore the functionalities available for the account and budget section. 
 
 ### :money_with_wings: Features available for Account Section
 1. Sign-in account
-   1. Create Account - creates a new account and store it to `List of Accounts` file text
+   1. Create Account - creates a new account and store it in `List of Accounts` file text
    2. Login Account - retrieves the matched account to the `List of Accounts` file text. 
-2. Deposit money - can only add amount to an account's balance if there is an existing account
-3. Check balance - displays account's balance at current time
-4. Withdraw money - can only subtract the amount to an account's balance if there is an existing account
-5. Check savings - displays account's savings at current time
+2. Deposit money - can only add the amount to an account's balance if there is an existing account
+3. Check balance - displays the account's balance at the current time
+4. Withdraw money - can only subtract the amount from an account's balance if there is an existing account
+5. Check savings - displays the account's savings at the current time
 
 ### :ledger: Features available for Budget Section
 1. Create a list of expenses 
-   1. Add - add new spending category to list and store it to an account's budget file
-   2. Remove - remove existing spending category to list and store it to an account's budget file
-   3. Clear - delete all spending category to list and store it to an account's budget file
+   1. Add - add a new spending category to list and store it to an account's budget file
+   2. Remove - remove existing spending category to list and store it in an account's budget file
+   3. Clear - delete all spending categories to list and store them in an account's budget file
 2. Display total expenses - display existing total expenses retrieved from the file or from the newly created
 list of expenses
 3. Display monthly budget data - display budget data statistics by showing the total expenses and the total
 savings 
-4. Save money - save money to the account and store the updated value to `List of Accounts` file
+4. Save money - save money to the account and store the updated value in `List of Accounts` file
 
 ### List of Accounts file
 1. Format Requirements:
    The file should be in Comma-Separated Values (CSV) format so that it can be read and processed.
-   The following format as exemplified as shown below:
+   The following format is exemplified as shown below:
 
    ```
    File name:
@@ -81,7 +81,7 @@ savings
    ```
    You can change the contents of the file as long as you follow the CSV format.
 2. Location:
-   There is a ready-file named `List of Accounts` inside the BudgetTracker folder. Please do not change the file name or 
+   There is a ready file named `List of Accounts` inside the BudgetTracker folder. Please do not change the file name or 
 else the code would not be read and processed. You can create a new file as long as you revise the file name inside the 
 `AccountManager` class.
    ```java
@@ -106,9 +106,9 @@ else the code would not be read and processed. You can create a new file as long
    
 ### Budget File
 1. Format Requirements:
-   Everytime an account has been signed-in, it automatically creates a budget file created which can be used as a storage of expenses. 
+   Every time an account has been signed-in, it automatically creates a budget file created which can be used as a storage of expenses. 
 The file format is always SURNAME YEAR MONTH and its content is always empty. This budget file is processed and used to calculate the 
-expenses (total, by wants, by needs). You can input the expenses inside the budget file as long as you follow the CSV-format as shown below:
+expenses (total, by wants, by needs). You can input the expenses inside the budget file as long as you follow the CSV format as shown below:
    ```
    File name:
    Huffman 2023 AUGUST
@@ -123,5 +123,5 @@ expenses (total, by wants, by needs). You can input the expenses inside the budg
    Grocery,5500.0,NEEDS
    ```
 2. Location:
-   The location of a newly or existing budget file will be always be inside the BudgetTracker folder and not inside the src
+   The location of a new or existing budget file will always be inside the BudgetTracker folder and not inside the src
 folder. 
