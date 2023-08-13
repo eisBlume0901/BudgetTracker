@@ -42,8 +42,8 @@ explore the functionalities available for the account and budget section.
 
 ### :money_with_wings: Features available for Account Section
 1. Sign-in account
-   1. Create Account - creates a new account and store it in `List of Accounts` file text
-   2. Login Account - retrieves the matched account to the `List of Accounts` file text. 
+   1. Create Account - creates a new account and store it in `List of Accounts` file
+   2. Login Account - retrieves the matched account from the `List of Accounts` file
 2. Deposit money - can only add the amount to an account's balance if there is an existing account
 3. Check balance - displays the account's balance at the current time
 4. Withdraw money - can only subtract the amount from an account's balance if there is an existing account
